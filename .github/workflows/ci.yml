@@ -53,6 +53,30 @@ jobs:
       - name: Build APK (Release)
         run: flutter build apk --release
 
+      - name: Send APK to WhatsApp
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        env:
+          URL: ${{ secrets.WHATSAPP_URL }}
+          AUTH: ${{ secrets.WHATSAPP_AUTH }}
+          PHONE: ${{ secrets.WHATSAPP_PHONE }}
+        run: |
+          # Generate filename with date
+          DATE_STR=$(date +'%Y%m%d')
+          FILENAME="${DATE_STR}-pns.apk"
+          
+          # Rename for delivery
+          cp build/app/outputs/flutter-apk/app-release.apk "$FILENAME"
+          
+          # Send via WhatsApp API
+          # Fallback to provided defaults if secrets are missing (OPTIONAL, for easier first run)
+          # Note: Recommended to use Secrets for production
+          curl -X POST "${URL:-https://whatsapp.planetnyemilsnack.store/send/file}" \
+            -H "Authorization: ${AUTH:-Basic cGxhbmV0Om55ZW1pbHNuYWNr}" \
+            -F "caption=PNS Mobile Release ($DATE_STR)" \
+            -F "phone=${PHONE:-6285723910307@s.whatsapp.net}" \
+            -F "is_forwarded=false" \
+            -F "file=@$FILENAME"
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
