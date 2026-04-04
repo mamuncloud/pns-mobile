@@ -9,9 +9,7 @@ void main() async {
   await initDependencies();
   runApp(
     MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => CounterBloc()),
-      ],
+      providers: [BlocProvider(create: (_) => CounterBloc())],
       child: const MyApp(),
     ),
   );

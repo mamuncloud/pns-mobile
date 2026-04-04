@@ -8,9 +8,7 @@ class CounterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('PNS Mobile'),
-      ),
+      appBar: AppBar(title: const Text('PNS Mobile')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
