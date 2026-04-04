@@ -68,12 +68,10 @@ jobs:
           cp build/app/outputs/flutter-apk/app-release.apk "$FILENAME"
           
           # Send via WhatsApp API
-          # Fallback to provided defaults if secrets are missing (OPTIONAL, for easier first run)
-          # Note: Recommended to use Secrets for production
-          curl -X POST "${URL:-https://whatsapp.planetnyemilsnack.store/send/file}" \
-            -H "Authorization: ${AUTH:-Basic cGxhbmV0Om55ZW1pbHNuYWNr}" \
+          curl -X POST "$URL" \
+            -H "Authorization: $AUTH" \
             -F "caption=PNS Mobile Release ($DATE_STR)" \
-            -F "phone=${PHONE:-6285723910307@s.whatsapp.net}" \
+            -F "phone=$PHONE" \
             -F "is_forwarded=false" \
             -F "file=@$FILENAME"
 
