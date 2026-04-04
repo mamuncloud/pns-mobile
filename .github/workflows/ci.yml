@@ -51,10 +51,14 @@ jobs:
         run: flutter test
 
       - name: Build APK (Release)
+        if: github.event_name == 'push' && (startsWith(github.event.head_commit.message, 'feat') || startsWith(github.event.head_commit.message, 'fix'))
         run: flutter build apk --release
 
       - name: Send APK to WhatsApp
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: |
+          github.ref == 'refs/heads/main' && 
+          github.event_name == 'push' && 
+          (startsWith(github.event.head_commit.message, 'feat') || startsWith(github.event.head_commit.message, 'fix'))
         env:
           URL: ${{ secrets.WHATSAPP_URL }}
           AUTH: ${{ secrets.WHATSAPP_AUTH }}
@@ -76,6 +80,7 @@ jobs:
             -F "file=@$FILENAME"
 
       - name: Upload APK
+        if: github.event_name == 'push' && (startsWith(github.event.head_commit.message, 'feat') || startsWith(github.event.head_commit.message, 'fix'))
         uses: actions/upload-artifact@v4
         with:
           name: release-apk
