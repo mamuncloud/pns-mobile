@@ -5,30 +5,20 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pns_mobile/features/counter/presentation/bloc/counter_bloc.dart';
 
 import 'package:pns_mobile/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('App starts with Login page smoke test', (
+    WidgetTester tester,
+  ) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(
-      BlocProvider(create: (_) => CounterBloc(), child: const MyApp()),
-    );
+    await tester.pumpWidget(const MyApp());
+    await tester.pumpAndSettle();
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify that the login form is present.
+    expect(find.text('OTENTIKASI AKSES STAF'), findsOneWidget);
+    expect(find.text('AKSES VIA LINK EMAIL & WHATSAPP'), findsOneWidget);
   });
 }

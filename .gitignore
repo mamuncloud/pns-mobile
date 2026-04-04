@@ -10,6 +10,7 @@
 .history
 .svn/
 .swiftpm/
+.metadata
 migrate_working_dir/
 
 # IntelliJ related
@@ -27,6 +28,8 @@ migrate_working_dir/
 **/doc/api/
 **/ios/Flutter/.last_build_id
 .dart_tool/
+.packages
+.flutter-plugins
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
@@ -43,6 +46,19 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Platform Specific Generated Files
+**/linux/flutter/generated_plugin_registrant.cc
+**/linux/flutter/generated_plugin_registrant.h
+**/linux/flutter/generated_plugins.cmake
+**/windows/flutter/generated_plugin_registrant.cc
+**/windows/flutter/generated_plugin_registrant.h
+**/windows/flutter/generated_plugins.cmake
+
+# Secrets and Environment Variables
+.env*
+android/key.properties
+*.jks
 
 # Node.js
 node_modules/
