@@ -1,0 +1,114 @@
+name: PNS Mobile CI
+
+on:
+  push:
+    branches:
+      - main
+      - stage
+      - dev
+    tags:
+      - "v*"
+  pull_request:
+    branches:
+      - main
+      - stage
+      - dev
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-test-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          cache: true
+
+      - name: Cache pub-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            **/.dart_tool/pub
+          key: ${{ runner.os }}-pub-cache-${{ hashFiles('pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-cache-
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Verify formatting
+        run: dart format --set-exit-if-changed .
+
+      - name: Analyze project
+        run: flutter analyze --fatal-infos --fatal-warnings
+
+      - name: Run tests
+        run: flutter test
+
+      - name: Build APK (Release)
+        env:
+          APP_ENV: >-
+            ${{ github.ref == 'refs/heads/main' && secrets.PROD_API_URL || 
+                (github.ref == 'refs/heads/stage' && secrets.STAGE_API_URL || 
+                 secrets.DEV_API_URL) }}
+        if: |
+          startsWith(github.ref, 'refs/tags/v') ||
+          github.ref == 'refs/heads/main' || 
+          github.ref == 'refs/heads/stage' || 
+          github.ref == 'refs/heads/dev' || 
+          startsWith(github.event.head_commit.message, 'feat') || 
+          startsWith(github.event.head_commit.message, 'fix')
+        run: flutter build apk --release --dart-define=APP_ENV=${{ env.APP_ENV }}
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/app/outputs/flutter-apk/app-release.apk
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Send APK to WhatsApp
+        if: startsWith(github.ref, 'refs/tags/v') && github.event_name == 'push'
+        env:
+          URL: ${{ secrets.WHATSAPP_URL }}
+          AUTH: ${{ secrets.WHATSAPP_AUTH }}
+          PHONE: ${{ secrets.WHATSAPP_PHONE }}
+        run: |
+          # Get commit message and version
+          COMMIT_MSG=$(echo "${{ github.event.head_commit.message }}" | head -n 1)
+          VERSION=$(grep 'version: ' pubspec.yaml | sed 's/version: //' | xargs)
+          
+          # Generate filename for delivery
+          FILE_DATE=$(date +'%Y%m%d')
+          FILENAME="${FILE_DATE}-pns-v${VERSION%+*}.apk"
+          cp build/app/outputs/flutter-apk/app-release.apk "$FILENAME"
+
+          # Send via WhatsApp API
+          curl -X POST "$URL" \
+            -H "Authorization: $AUTH" \
+            -F "caption=$COMMIT_MSG" \
+            -F "phone=$PHONE" \
+            -F "is_forwarded=false" \
+            -F "file=@$FILENAME"
+
+      - name: Upload APK
+        if: |
+          github.event_name == 'push' && 
+          (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/stage' || github.ref == 'refs/heads/dev' || startsWith(github.event.head_commit.message, 'feat') || startsWith(github.event.head_commit.message, 'fix'))
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk

@@ -1,0 +1,122 @@
+# ===========================
+# Miscellaneous
+# ===========================
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+.metadata
+migrate_working_dir/
+
+# ===========================
+# IntelliJ / Android Studio
+# ===========================
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# ===========================
+# VSCode
+# ===========================
+# Uncomment if you don't want to share launch configs:
+#.vscode/
+
+# ===========================
+# Flutter / Dart / Pub
+# ===========================
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.dart_tool/build/
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+
+# Generated files (code generation tools)
+*.g.dart
+*.freezed.dart
+*.mocks.dart
+
+# ===========================
+# Coverage & Testing
+# ===========================
+/coverage/
+*.lcov
+
+# ===========================
+# Symbolication & Obfuscation
+# ===========================
+app.*.symbols
+app.*.map.json
+
+# ===========================
+# Android
+# ===========================
+/android/app/debug
+/android/app/profile
+/android/app/release
+android/local.properties
+android/gradle.properties
+**/android/gradlew
+**/android/gradlew.bat
+**/android/.gradle/
+**/android/captures/
+**/android/*.keystore
+
+# ===========================
+# iOS & macOS
+# ===========================
+**/ios/Pods/
+**/ios/.symlinks/
+**/macos/Pods/
+**/macos/.symlinks/
+ios/Flutter/Generated.xcconfig
+ios/Flutter/flutter_export_environment.sh
+*.xcworkspace/
+
+# ===========================
+# Platform Generated Files
+# ===========================
+**/linux/flutter/generated_plugin_registrant.cc
+**/linux/flutter/generated_plugin_registrant.h
+**/linux/flutter/generated_plugins.cmake
+**/windows/flutter/generated_plugin_registrant.cc
+**/windows/flutter/generated_plugin_registrant.h
+**/windows/flutter/generated_plugins.cmake
+
+# ===========================
+# Secrets & Environment
+# ===========================
+.env*
+android/key.properties
+*.jks
+
+# Firebase credentials
+google-services.json
+GoogleService-Info.plist
+
+# ===========================
+# Node.js
+# ===========================
+node_modules/
+bun.lockb
+.husky/_
+
+# ===========================
+# Fastlane (CI/CD)
+# ===========================
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/
+fastlane/test_output/
