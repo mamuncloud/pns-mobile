@@ -1,0 +1,87 @@
+name: PNS Mobile CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-test-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          cache: true
+
+      - name: Cache pub-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            **/.dart_tool/pub
+          key: ${{ runner.os }}-pub-cache-${{ hashFiles('pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-cache-
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Verify formatting
+        run: dart format --set-exit-if-changed .
+
+      - name: Analyze project
+        run: flutter analyze --fatal-infos --fatal-warnings
+
+      - name: Run tests
+        run: flutter test
+
+      - name: Build APK (Release)
+        if: github.event_name == 'push' && (startsWith(github.event.head_commit.message, 'feat') || startsWith(github.event.head_commit.message, 'fix'))
+        run: flutter build apk --release
+
+      - name: Send APK to WhatsApp
+        if: |
+          github.ref == 'refs/heads/main' && 
+          github.event_name == 'push' && 
+          (startsWith(github.event.head_commit.message, 'feat') || startsWith(github.event.head_commit.message, 'fix'))
+        env:
+          URL: ${{ secrets.WHATSAPP_URL }}
+          AUTH: ${{ secrets.WHATSAPP_AUTH }}
+          PHONE: ${{ secrets.WHATSAPP_PHONE }}
+        run: |
+          # Generate filename with date
+          DATE_STR=$(date +'%Y%m%d')
+          FILENAME="${DATE_STR}-pns.apk"
+          
+          # Rename for delivery
+          cp build/app/outputs/flutter-apk/app-release.apk "$FILENAME"
+          
+          # Send via WhatsApp API
+          curl -X POST "$URL" \
+            -H "Authorization: $AUTH" \
+            -F "caption=PNS Mobile Release ($DATE_STR)" \
+            -F "phone=$PHONE" \
+            -F "is_forwarded=false" \
+            -F "file=@$FILENAME"
+
+      - name: Upload APK
+        if: github.event_name == 'push' && (startsWith(github.event.head_commit.message, 'feat') || startsWith(github.event.head_commit.message, 'fix'))
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
