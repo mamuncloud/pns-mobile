@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pns_mobile/core/constants/app_constants.dart';
 import 'package:pns_mobile/core/theme/app_theme.dart';
+import 'package:pns_mobile/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:pns_mobile/features/auth/presentation/pages/login_page.dart';
 import 'package:pns_mobile/features/auth/presentation/pages/verify_page.dart';
 import 'package:pns_mobile/features/counter/presentation/bloc/counter_bloc.dart';
@@ -22,7 +23,10 @@ void main() async {
   final app = MyApp();
   runApp(
     MultiBlocProvider(
-      providers: [BlocProvider(create: (_) => CounterBloc())],
+      providers: [
+        BlocProvider(create: (_) => serviceLocator<AuthBloc>()),
+        BlocProvider(create: (_) => CounterBloc()),
+      ],
       child: app,
     ),
   );
