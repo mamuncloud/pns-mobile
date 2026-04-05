@@ -20,7 +20,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         data: {'identifier': identifier},
       );
     } on DioException catch (e) {
-      throw ServerException(e.response?.data['message'] ?? 'Gagal mengirim tautan login');
+      throw ServerException(
+        e.response?.data['message'] ?? 'Gagal mengirim tautan login',
+      );
     }
   }
 
@@ -31,7 +33,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         AppConstants.verifyLoginEndpoint,
         queryParameters: {'token': token},
       );
-      
+
       final data = response.data;
       return {
         'access_token': data['access_token'],

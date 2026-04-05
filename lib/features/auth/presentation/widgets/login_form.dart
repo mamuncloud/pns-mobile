@@ -32,9 +32,9 @@ class _LoginFormState extends State<LoginForm> {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthFailureState) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message)),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(state.message)));
         }
       },
       builder: (context, state) {
@@ -73,7 +73,9 @@ class _LoginFormState extends State<LoginForm> {
                 text: TextSpan(
                   style: theme.textTheme.bodyMedium,
                   children: [
-                    const TextSpan(text: 'Kami telah mengirimkan tautan akses ke '),
+                    const TextSpan(
+                      text: 'Kami telah mengirimkan tautan akses ke ',
+                    ),
                     TextSpan(
                       text: _identifierController.text,
                       style: TextStyle(
@@ -83,7 +85,8 @@ class _LoginFormState extends State<LoginForm> {
                       ),
                     ),
                     const TextSpan(
-                      text: ' dan saluran komunikasi Anda lainnya yang terdaftar.',
+                      text:
+                          ' dan saluran komunikasi Anda lainnya yang terdaftar.',
                     ),
                   ],
                 ),
@@ -100,7 +103,8 @@ class _LoginFormState extends State<LoginForm> {
               ),
               const SizedBox(height: 32),
               OutlinedButton(
-                onPressed: () => context.read<AuthBloc>().add(AuthInitialCheckRequested()),
+                onPressed: () =>
+                    context.read<AuthBloc>().add(AuthInitialCheckRequested()),
                 child: const Text('GUNAKAN IDENTITAS LAIN'),
               ),
             ],

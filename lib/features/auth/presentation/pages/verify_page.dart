@@ -44,7 +44,9 @@ class _VerifyPageState extends State<VerifyPage> {
                     if (context.mounted) {
                       // Navigate to Dashboard/Products (Mocked for now)
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Mengalihkan ke Dashboard...')),
+                        const SnackBar(
+                          content: Text('Mengalihkan ke Dashboard...'),
+                        ),
                       );
                     }
                   });
@@ -53,10 +55,13 @@ class _VerifyPageState extends State<VerifyPage> {
               builder: (context, state) {
                 final isLoading = state is AuthLoading;
                 final isSuccess = state is AuthSuccess;
-                final isError = state is AuthFailureState || widget.token == null;
-                final errorMessage = (state is AuthFailureState) 
-                    ? state.message 
-                    : (widget.token == null ? 'Token tidak ditemukan. Tautan mungkin tidak valid.' : null);
+                final isError =
+                    state is AuthFailureState || widget.token == null;
+                final errorMessage = (state is AuthFailureState)
+                    ? state.message
+                    : (widget.token == null
+                          ? 'Token tidak ditemukan. Tautan mungkin tidak valid.'
+                          : null);
 
                 return ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 400),
@@ -69,8 +74,8 @@ class _VerifyPageState extends State<VerifyPage> {
                           isLoading
                               ? 'MEMVERIFIKASI TAUTAN...'
                               : isSuccess
-                                  ? 'LOGIN BERHASIL!'
-                                  : 'VERIFIKASI GAGAL',
+                              ? 'LOGIN BERHASIL!'
+                              : 'VERIFIKASI GAGAL',
                           textAlign: TextAlign.center,
                           style: theme.textTheme.headlineSmall?.copyWith(
                             fontWeight: FontWeight.bold,

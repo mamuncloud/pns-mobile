@@ -14,9 +14,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({
     required RequestLogin requestLogin,
     required VerifyLogin verifyLogin,
-  })  : _requestLogin = requestLogin,
-        _verifyLogin = verifyLogin,
-        super(AuthInitial()) {
+  }) : _requestLogin = requestLogin,
+       _verifyLogin = verifyLogin,
+       super(AuthInitial()) {
     on<AuthRequestLogin>(_onAuthRequestLogin);
     on<AuthVerifyToken>(_onAuthVerifyToken);
   }
@@ -41,9 +41,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     emit(AuthLoading());
-    final res = await _verifyLogin(
-      VerifyLoginParams(token: event.token),
-    );
+    final res = await _verifyLogin(VerifyLoginParams(token: event.token));
 
     res.fold(
       (failure) => emit(AuthFailureState(failure.message)),

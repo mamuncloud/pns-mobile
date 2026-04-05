@@ -28,13 +28,13 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, User>> verifyLogin(String token) async {
     try {
       final result = await remoteDataSource.verifyLogin(token);
-      
+
       final accessToken = result['access_token'];
       final user = result['user'] as User;
 
       // Save token securely
       await secureStorage.write(key: AppConstants.tokenKey, value: accessToken);
-      
+
       return Right(user);
     } on ServerException catch (e) {
       return Left(AuthFailure(e.message));

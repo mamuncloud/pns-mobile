@@ -15,7 +15,9 @@ Future<void> initDependencies() async {
   // Core
   serviceLocator.registerLazySingleton(() => const FlutterSecureStorage());
   serviceLocator.registerLazySingleton(() => Dio());
-  serviceLocator.registerLazySingleton(() => ApiClient(serviceLocator(), serviceLocator()));
+  serviceLocator.registerLazySingleton(
+    () => ApiClient(serviceLocator(), serviceLocator()),
+  );
 
   _initAuth();
   _initCounter();
@@ -38,10 +40,8 @@ void _initAuth() {
 
   // Bloc
   serviceLocator.registerLazySingleton(
-    () => AuthBloc(
-      requestLogin: serviceLocator(),
-      verifyLogin: serviceLocator(),
-    ),
+    () =>
+        AuthBloc(requestLogin: serviceLocator(), verifyLogin: serviceLocator()),
   );
 }
 
