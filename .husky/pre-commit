@@ -1,0 +1,1 @@
+bunx lint-staged && flutter analyze --fatal-infos --fatal-warnings && flutter test
