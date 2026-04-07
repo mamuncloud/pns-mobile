@@ -14,9 +14,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({
     required RequestLogin requestLogin,
     required VerifyLogin verifyLogin,
-  }) : _requestLogin = requestLogin,
-       _verifyLogin = verifyLogin,
-       super(AuthInitial()) {
+  })  : _requestLogin = requestLogin,
+        _verifyLogin = verifyLogin,
+        super(AuthInitial()) {
     on<AuthRequestLogin>(_onAuthRequestLogin);
     on<AuthVerifyToken>(_onAuthVerifyToken);
     on<AuthInitialCheckRequested>((event, emit) => emit(AuthInitial()));

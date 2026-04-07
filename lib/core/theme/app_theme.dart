@@ -84,18 +84,18 @@ class AppTheme {
     ),
     textTheme: GoogleFonts.montserratTextTheme(
       ThemeData.dark().textTheme.copyWith(
-        headlineLarge: const TextStyle(
-          fontWeight: FontWeight.w900,
-          letterSpacing: -1.5,
-          fontStyle: FontStyle.italic,
-          color: AppColors.darkPrimary,
-        ),
-        titleLarge: const TextStyle(
-          fontWeight: FontWeight.bold,
-          letterSpacing: -0.5,
-          color: AppColors.darkOnSurface,
-        ),
-      ),
+            headlineLarge: const TextStyle(
+              fontWeight: FontWeight.w900,
+              letterSpacing: -1.5,
+              fontStyle: FontStyle.italic,
+              color: AppColors.darkPrimary,
+            ),
+            titleLarge: const TextStyle(
+              fontWeight: FontWeight.bold,
+              letterSpacing: -0.5,
+              color: AppColors.darkOnSurface,
+            ),
+          ),
     ),
     cardTheme: CardThemeData(
       elevation: 0,

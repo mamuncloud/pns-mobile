@@ -60,8 +60,8 @@ class _VerifyPageState extends State<VerifyPage> {
                 final errorMessage = (state is AuthFailureState)
                     ? state.message
                     : (widget.token == null
-                          ? 'Token tidak ditemukan. Tautan mungkin tidak valid.'
-                          : null);
+                        ? 'Token tidak ditemukan. Tautan mungkin tidak valid.'
+                        : null);
 
                 return ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 400),
@@ -74,8 +74,8 @@ class _VerifyPageState extends State<VerifyPage> {
                           isLoading
                               ? 'MEMVERIFIKASI TAUTAN...'
                               : isSuccess
-                              ? 'LOGIN BERHASIL!'
-                              : 'VERIFIKASI GAGAL',
+                                  ? 'LOGIN BERHASIL!'
+                                  : 'VERIFIKASI GAGAL',
                           textAlign: TextAlign.center,
                           style: theme.textTheme.headlineSmall?.copyWith(
                             fontWeight: FontWeight.bold,
