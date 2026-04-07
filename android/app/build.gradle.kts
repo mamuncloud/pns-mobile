@@ -10,6 +10,14 @@ android {
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
+    // Parsing dart-defines for multi-stage support
+    val dartDefines = (project.findProperty("dart-defines") as String?)?.split(",")?.associate {
+        val parts = it.split("=")
+        parts[0] to (parts.getOrNull(1) ?: "")
+    } ?: emptyMap()
+
+    val deepLinkHost = dartDefines["DEEP_LINK_HOST"] ?: "planetnyemilsnack.store"
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -28,6 +36,8 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+
+        manifestPlaceholders += mapOf("deepLinkHost" to deepLinkHost)
     }
 
     buildTypes {

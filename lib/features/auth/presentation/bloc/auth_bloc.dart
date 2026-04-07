@@ -19,6 +19,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
        super(AuthInitial()) {
     on<AuthRequestLogin>(_onAuthRequestLogin);
     on<AuthVerifyToken>(_onAuthVerifyToken);
+    on<AuthInitialCheckRequested>((event, emit) => emit(AuthInitial()));
   }
 
   void _onAuthRequestLogin(
@@ -40,6 +41,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     AuthVerifyToken event,
     Emitter<AuthState> emit,
   ) async {
+    // Guard against multiple calls for the same process
+    if (state is AuthLoading || state is AuthSuccess) return;
+
     emit(AuthLoading());
     final res = await _verifyLogin(VerifyLoginParams(token: event.token));
 

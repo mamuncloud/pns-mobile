@@ -64,9 +64,26 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  String? _lastToken;
+  DateTime? _lastHandleTime;
+
   void _handleDeepLink(Uri uri) {
     if (uri.path == '/staff/verify') {
       final token = uri.queryParameters['token'];
+      if (token == null) return;
+
+      // Deduplicate: ignore if same token handled within last 2 seconds
+      if (token == _lastToken &&
+          _lastHandleTime != null &&
+          DateTime.now().difference(_lastHandleTime!).inSeconds < 2) {
+        debugPrint('⏭️ [PNS] Skipping duplicate deep link: $token');
+        return;
+      }
+
+      _lastToken = token;
+      _lastHandleTime = DateTime.now();
+
+      debugPrint('🔗 [PNS] Handling deep link: $token');
 
       // Navigate to VerifyPage if navigatorKey is ready
       navigatorKey.currentState?.push(

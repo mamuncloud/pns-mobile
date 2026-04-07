@@ -28,10 +28,10 @@ This project supports multiple environments for the API Base URL. Sensitive URLs
 
 | Environment | Command | Description |
 |-------------|---------|-------------|
-| **Local**   | `flutter run` | Defaults to `localhost:3001` (Auto-switches to `10.0.2.2` for Android). |
-| **Dev**     | `flutter run --dart-define=APP_ENV=https://dev.api.***.com` | Development branch API. |
-| **Stage**   | `flutter run --dart-define=APP_ENV=https://stage.api.***.com` | Staging branch API. |
-| **Prod**    | `flutter run --release --dart-define=APP_ENV=https://api.***.com` | Production branch API. |
+| **Local**   | `flutter run` | Defaults to Production URL but can be overridden locally. |
+| **Dev**     | `flutter run --dart-define=API_URL=http://localhost:3001 --dart-define=DEEP_LINK_HOST=localhost` | Local development. |
+| **Stage**   | `flutter run --dart-define=API_URL=https://api.stage.***.com --dart-define=DEEP_LINK_HOST=stage.***.com` | Staging branch API. |
+| **Prod**    | `flutter run --release --dart-define=API_URL=https://api.***.com --dart-define=DEEP_LINK_HOST=***.com` | Production branch API. |
 
 ### CI/CD Branch Mapping
 

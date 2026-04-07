@@ -34,10 +34,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         queryParameters: {'token': token},
       );
 
-      final data = response.data;
+      final responseData = response.data['data'] as Map<String, dynamic>;
       return {
-        'access_token': data['access_token'],
-        'user': UserModel.fromJson(data['user']),
+        'access_token': responseData['access_token'],
+        'user': UserModel.fromJson(responseData['user']),
       };
     } on DioException catch (e) {
       throw ServerException(e.response?.data['message'] ?? 'Verifikasi gagal');
