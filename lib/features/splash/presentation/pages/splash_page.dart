@@ -52,7 +52,7 @@ class _SplashPageState extends State<SplashPage> {
                     borderRadius: BorderRadius.circular(72),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.3),
+                        color: Colors.black.withValues(alpha: 0.3),
                         blurRadius: 30,
                         offset: const Offset(0, 15),
                       ),
@@ -109,7 +109,7 @@ class _SplashPageState extends State<SplashPage> {
                   style: GoogleFonts.inter(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
-                    color: Colors.white.withOpacity(0.7),
+                    color: Colors.white.withValues(alpha: 0.7),
                     letterSpacing: 4.0,
                   ),
                 ),
@@ -127,7 +127,7 @@ class _SplashPageState extends State<SplashPage> {
       width: active ? 16 : 8,
       height: 8,
       decoration: BoxDecoration(
-        color: active ? Colors.white : Colors.white.withOpacity(0.3),
+        color: active ? Colors.white : Colors.white.withValues(alpha: 0.3),
         borderRadius: BorderRadius.circular(4),
       ),
     );
@@ -137,8 +137,8 @@ class _SplashPageState extends State<SplashPage> {
 class StarPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = Colors.white.withOpacity(0.15);
-    final random = java_math_Random(42); // Fixed seed for stable stars
+    final paint = Paint()..color = Colors.white.withValues(alpha: 0.15);
+    final random = JavaMathRandom(42); // Fixed seed for stable stars
 
     // Draw small stars
     for (int i = 0; i < 60; i++) {
@@ -149,7 +149,8 @@ class StarPainter extends CustomPainter {
     }
 
     // Draw a couple of larger faint icons or stars (optional)
-    final largeStarPaint = Paint()..color = Colors.white.withOpacity(0.05);
+    final largeStarPaint = Paint()
+      ..color = Colors.white.withValues(alpha: 0.05);
     canvas.drawCircle(
         Offset(size.width * 0.1, size.height * 0.1), 100, largeStarPaint);
     canvas.drawCircle(
@@ -161,9 +162,9 @@ class StarPainter extends CustomPainter {
 }
 
 // Simple random generator for CustomPainter since we don't want external dependencies
-class java_math_Random {
+class JavaMathRandom {
   int seed;
-  java_math_Random(this.seed);
+  JavaMathRandom(this.seed);
   double nextDouble() {
     seed = (seed * 1103515245 + 12345) & 0x7fffffff;
     return seed / 0x7fffffff;

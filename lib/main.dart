@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pns_mobile/core/constants/app_constants.dart';
 import 'package:pns_mobile/core/theme/app_theme.dart';
 import 'package:pns_mobile/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:pns_mobile/features/auth/presentation/pages/login_page.dart';
 import 'package:pns_mobile/features/auth/presentation/pages/verify_page.dart';
 import 'package:pns_mobile/features/counter/presentation/bloc/counter_bloc.dart';
 import 'package:pns_mobile/features/splash/presentation/pages/splash_page.dart';
