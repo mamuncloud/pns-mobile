@@ -8,6 +8,7 @@ import 'package:pns_mobile/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:pns_mobile/features/auth/presentation/pages/login_page.dart';
 import 'package:pns_mobile/features/auth/presentation/pages/verify_page.dart';
 import 'package:pns_mobile/features/counter/presentation/bloc/counter_bloc.dart';
+import 'package:pns_mobile/features/splash/presentation/pages/splash_page.dart';
 import 'package:pns_mobile/init_dependencies.dart';
 
 // Global key for navigation from outside the widget tree
@@ -103,7 +104,7 @@ class _MyAppState extends State<MyApp> {
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         themeMode: ThemeMode.system,
-        home: const LoginPage(),
+        home: const SplashPage(),
       ),
     );
   }
