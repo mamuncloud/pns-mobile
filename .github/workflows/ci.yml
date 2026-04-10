@@ -2,10 +2,10 @@ name: PNS Mobile CI/CD
 
 on:
   push:
-    branches: [ "main", "stage", "dev" ]
-    tags: [ "v*" ]
+    branches: ["main", "stage", "dev"]
+    tags: ["v*"]
   pull_request:
-    branches: [ "main", "stage", "dev" ]
+    branches: ["main", "stage", "dev"]
 
 env:
   FLUTTER_VERSION: "3.41.6"

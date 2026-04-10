@@ -150,8 +150,10 @@ class StarPainter extends CustomPainter {
 
     // Draw a couple of larger faint icons or stars (optional)
     final largeStarPaint = Paint()..color = Colors.white.withOpacity(0.05);
-    canvas.drawCircle(Offset(size.width * 0.1, size.height * 0.1), 100, largeStarPaint);
-    canvas.drawCircle(Offset(size.width * 0.9, size.height * 0.8), 150, largeStarPaint);
+    canvas.drawCircle(
+        Offset(size.width * 0.1, size.height * 0.1), 100, largeStarPaint);
+    canvas.drawCircle(
+        Offset(size.width * 0.9, size.height * 0.8), 150, largeStarPaint);
   }
 
   @override
